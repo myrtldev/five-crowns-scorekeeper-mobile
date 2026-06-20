@@ -1,5 +1,6 @@
-const rounds = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
-const storageKey = 'five-crowns-mobile-state-v1';
+const rounds = [3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K'];
+const storageKey = 'five-crowns-mobile-state-v2';
+const pickerValues = Array.from({ length: 201 }, (_, i) => i);
 
 const playerCountEl = document.getElementById('playerCount');
 const playerNamesEl = document.getElementById('playerNames');
@@ -7,6 +8,7 @@ const buildGameButton = document.getElementById('buildGameButton');
 const clearSavedButton = document.getElementById('clearSavedButton');
 const newGameButton = document.getElementById('newGameButton');
 const gameSection = document.getElementById('gameSection');
+const setupSection = document.getElementById('setupSection');
 const roundChips = document.getElementById('roundChips');
 const roundCards = document.getElementById('roundCards');
 
@@ -14,6 +16,7 @@ let state = {
   players: [],
   scores: {},
   activeRound: 0,
+  started: false,
 };
 
 function renderPlayerInputs() {
@@ -49,9 +52,11 @@ function buildGame(fromSaved = false) {
       players,
       scores: blankScores(players),
       activeRound: 0,
+      started: true,
     };
   }
 
+  state.started = true;
   renderGame();
   saveState();
 }
@@ -59,17 +64,21 @@ function buildGame(fromSaved = false) {
 function renderGame() {
   if (!state.players.length) return;
 
-  gameSection.classList.remove('hidden');
+  if (state.started) {
+    setupSection.classList.add('hidden');
+    gameSection.classList.remove('hidden');
+  }
+
   renderRoundChips();
   renderRoundCards();
 }
 
 function renderRoundChips() {
   roundChips.innerHTML = '';
-  rounds.forEach((cards, index) => {
+  rounds.forEach((label, index) => {
     const chip = document.createElement('button');
     chip.className = `round-chip ${index === state.activeRound ? 'active' : ''}`;
-    chip.textContent = `R${index + 1}`;
+    chip.textContent = String(label);
     chip.addEventListener('click', () => {
       state.activeRound = index;
       renderGame();
@@ -91,24 +100,59 @@ function renderRoundCards() {
     const card = document.createElement('div');
     card.className = 'player-card';
     card.innerHTML = `
-      <h3>${player}</h3>
-      <div class="muted">Round ${roundIndex + 1} • ${cards} cards</div>
+      <div class="player-head">
+        <div>
+          <h3>${player}</h3>
+          <div class="muted">Round ${cards}</div>
+        </div>
+        <button class="secondary edit-name" data-player="${player}">Edit</button>
+      </div>
       <div class="score-row">
-        <label for="score-${player}">Score</label>
-        <input id="score-${player}" type="number" min="0" step="1" inputmode="numeric" value="${currentValue}" />
+        <label for="score-${safeId(player)}">Score</label>
+        <input id="score-${safeId(player)}" type="number" min="0" step="1" inputmode="numeric" value="${currentValue}" />
+        <select id="picker-${safeId(player)}">
+          <option value="">Pick</option>
+          ${pickerValues.map((value) => `<option value="${value}" ${String(currentValue) === String(value) ? 'selected' : ''}>${value}</option>`).join('')}
+        </select>
       </div>
       <div class="total">Total: ${total}</div>
     `;
 
     const input = card.querySelector('input');
+    const picker = card.querySelector('select');
+    const editButton = card.querySelector('.edit-name');
+
     input.addEventListener('input', (event) => {
       state.scores[player][roundIndex] = event.target.value;
       saveState();
       renderRoundCards();
     });
 
+    picker.addEventListener('change', (event) => {
+      state.scores[player][roundIndex] = event.target.value;
+      saveState();
+      renderRoundCards();
+    });
+
+    editButton.addEventListener('click', () => editPlayerName(player));
+
     roundCards.appendChild(card);
   });
+}
+
+function editPlayerName(oldName) {
+  const nextName = window.prompt('Edit player name', oldName)?.trim();
+  if (!nextName || nextName === oldName) return;
+  if (state.players.includes(nextName)) return;
+
+  const index = state.players.indexOf(oldName);
+  if (index === -1) return;
+
+  state.players[index] = nextName;
+  state.scores[nextName] = state.scores[oldName] || Array(rounds.length).fill('');
+  delete state.scores[oldName];
+  saveState();
+  renderGame();
 }
 
 function saveState() {
@@ -137,9 +181,14 @@ function loadState() {
 
 function clearSaved() {
   localStorage.removeItem(storageKey);
-  state = { players: [], scores: {}, activeRound: 0 };
+  state = { players: [], scores: {}, activeRound: 0, started: false };
   gameSection.classList.add('hidden');
+  setupSection.classList.remove('hidden');
   renderPlayerInputs();
+}
+
+function safeId(value) {
+  return value.replace(/[^a-z0-9]+/gi, '-').toLowerCase();
 }
 
 playerCountEl.addEventListener('change', renderPlayerInputs);

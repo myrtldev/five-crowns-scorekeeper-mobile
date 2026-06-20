@@ -24,52 +24,53 @@ body {
 .app-shell {
   max-width: 430px;
   margin: 0 auto;
-  padding: max(12px, env(safe-area-inset-top)) 12px max(18px, env(safe-area-inset-bottom));
+  padding: max(10px, env(safe-area-inset-top)) 10px max(16px, env(safe-area-inset-bottom));
 }
 
 .topbar {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
 .topbar h1 {
   margin: 0;
-  font-size: 1.7rem;
+  font-size: 1.55rem;
 }
 
 .topbar p {
   margin: 2px 0 0;
   color: var(--muted);
+  font-size: 0.92rem;
 }
 
 .panel {
   background: var(--panel);
   border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 14px;
-  margin-bottom: 12px;
+  border-radius: 14px;
+  padding: 12px;
+  margin-bottom: 10px;
 }
 
 .stack {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-bottom: 12px;
+  gap: 4px;
+  margin-bottom: 10px;
 }
 
 .player-names {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 10px;
-  margin-bottom: 12px;
+  gap: 8px;
+  margin-bottom: 10px;
 }
 
 label {
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
 }
 
 input,
@@ -81,18 +82,18 @@ button {
 input,
 select {
   width: 100%;
-  padding: 14px 12px;
+  padding: 12px 10px;
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 10px;
   background: white;
 }
 
 button {
   border: 0;
-  border-radius: 12px;
+  border-radius: 10px;
   background: var(--accent);
   color: white;
-  padding: 14px 14px;
+  padding: 12px 12px;
   cursor: pointer;
   font-weight: 700;
 }
@@ -102,27 +103,32 @@ button.secondary {
 }
 
 button.small {
-  padding: 10px 12px;
+  padding: 8px 10px;
+}
+
+button.edit-name {
+  padding: 6px 9px;
+  font-size: 0.82rem;
 }
 
 .button-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 8px;
 }
 
 .note {
-  margin: 12px 0 0;
+  margin: 10px 0 0;
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: 0.84rem;
 }
 
 .round-chip-row {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   overflow-x: auto;
-  padding-bottom: 8px;
-  margin-bottom: 12px;
+  padding-bottom: 6px;
+  margin-bottom: 10px;
 }
 
 .round-chip {
@@ -130,9 +136,10 @@ button.small {
   background: var(--chip);
   color: var(--text);
   border-radius: 999px;
-  padding: 8px 12px;
+  padding: 7px 10px;
   border: 1px solid var(--line);
   font-weight: 700;
+  font-size: 0.9rem;
 }
 
 .round-chip.active {
@@ -142,43 +149,53 @@ button.small {
 
 .round-cards {
   display: grid;
-  gap: 12px;
+  gap: 8px;
 }
 
 .player-card {
   border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 12px;
+  border-radius: 12px;
+  padding: 10px;
   background: white;
 }
 
+.player-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
 .player-card h3 {
-  margin: 0 0 6px;
-  font-size: 1.05rem;
+  margin: 0;
+  font-size: 1rem;
 }
 
 .muted {
   color: var(--muted);
-  font-size: 0.92rem;
+  font-size: 0.84rem;
 }
 
 .score-row {
   display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 10px;
+  grid-template-columns: 1fr auto auto;
+  gap: 8px;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
-.score-row input {
-  width: 110px;
+.score-row input,
+.score-row select {
+  width: 88px;
   text-align: center;
-  font-size: 1.05rem;
+  font-size: 1rem;
+  padding: 10px 8px;
 }
 
 .total {
-  margin-top: 10px;
+  margin-top: 8px;
   font-weight: 700;
+  font-size: 0.95rem;
 }
 
 .hidden {
