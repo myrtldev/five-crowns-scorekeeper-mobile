@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="5 Crowns" />
+  <meta name="theme-color" content="#7a1f1f" />
+  <title>Five Crowns Mobile</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <h1>Five Crowns</h1>
+        <p>Mobile scorekeeper</p>
+      </div>
+      <button id="newGameButton" class="secondary small">New</button>
+    </header>
+
+    <section class="panel">
+      <div class="stack">
+        <label for="playerCount">Players</label>
+        <select id="playerCount">
+          <option value="2">2</option>
+          <option value="3" selected>3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+        </select>
+      </div>
+
+      <div id="playerNames" class="player-names"></div>
+
+      <div class="button-row">
+        <button id="buildGameButton">Start Game</button>
+        <button id="clearSavedButton" class="secondary">Clear Saved</button>
+      </div>
+
+      <p class="note">On iPhone: open in Safari, then Share → Add to Home Screen.</p>
+    </section>
+
+    <section id="gameSection" class="panel hidden">
+      <div class="round-chip-row" id="roundChips"></div>
+      <div id="roundCards" class="round-cards"></div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
